@@ -107,7 +107,19 @@ body{background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"SF Pro T
 .k.k1 *,.k.k2 *{visibility:hidden}
 .k.k0{cursor:grab;z-index:5}
 .k .h{font-size:24px;font-weight:700}.k .sub{font-size:14px;color:var(--l2);margin:2px 0 10px}
-.prev{border-radius:12px;overflow:hidden;background:#eceff3;border:1px solid #e0e0e5}.prev svg{display:block;width:100%}
+.prev{border-radius:12px;overflow:hidden;background:#eceff3;border:1px solid #e0e0e5}.prev svg{display:block;width:100%;max-height:168px}
+.seg{display:flex;background:#7676801f;border-radius:9px;padding:2px;margin:4px 16px 0}
+.seg div{flex:1;text-align:center;font-size:13px;font-weight:600;padding:7px 0;border-radius:7px;cursor:pointer}
+.seg div.on{background:#fff;box-shadow:0 1px 3px #0003}
+.tsw{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);display:flex;background:#000a;border-radius:18px;padding:3px}
+.tsw div{padding:7px 16px;border-radius:15px;font-size:13px;font-weight:600;cursor:pointer;color:#ddd;white-space:nowrap}
+.tsw div.on{background:#ffd60a;color:#000}
+.dhero{background:#fff;margin:0 16px;border-radius:16px;padding:14px;display:flex;gap:14px;align-items:center}
+.dhero .th{width:84px;height:112px;flex:none;border-radius:8px;box-shadow:0 2px 8px #0003}
+.dhero b{font-size:20px;display:block;margin-bottom:6px}
+.pgs{display:flex;gap:10px;overflow-x:auto;padding:0 16px 4px}.pgs .th{width:72px;height:96px;flex:none;border-radius:8px;box-shadow:0 1px 4px #0003}
+.pgs::-webkit-scrollbar{display:none}
+.cell .rt{text-align:right;font-weight:600}
 .fld{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:.5px solid #e5e5ea;font-size:16px}.fld:last-of-type{border:0}.fld span{color:var(--l2)}
 .cf{font-size:11px;font-weight:700;border-radius:8px;padding:1px 6px;margin-left:7px;background:#d4f5dc;color:#1b8a3a}.cf.lo{background:#ffecc9;color:#b86e00}
 .stamp{position:absolute;top:26px;font-size:22px;font-weight:800;border:4px solid;border-radius:10px;padding:1px 12px;opacity:0;pointer-events:none;letter-spacing:1px}
@@ -150,15 +162,19 @@ const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelecto
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const TYPES={
- gst:{name:'GST certificate',entity:'New supplier',attach:'Supplier › GST file',fields:[['Name','Sri Traders',98],['GSTIN','33ABCDE1234F1Z5',96],['City','Chennai',99]]},
- inv:{name:'Purchase invoice',entity:'Purchase invoice',attach:'Purchase Invoice › Attachment',fields:[['Supplier','Sri Traders',97],['Invoice no.','INV-2043',95],['Total','₹ 48,250.00',90]]},
- bill:{name:'Bill',entity:'Expense bill',attach:'Expense › Attachment',fields:[['Vendor','Kumar Stores',94],['Date','14 Nov 2026',97],['Amount','₹ 3,120.00',88]]},
- dn:{name:'Delivery note',entity:'Delivery note',attach:'Delivery Note › Attachment',fields:[['Customer','Anand & Co',96],['Item','Steel rod 12mm',93],['Qty','250 kg',91]]}
+ pinv:{name:'Purchase invoice',short:'Purchase',entity:'Purchase invoice',attach:'Purchase Invoice › Attachment',party:'Supplier',fields:[['Supplier','Sri Traders',97],['Invoice no.','PINV-2043',95],['Date','14 Nov 2026',96],['Total','₹ 48,250.00',90]]},
+ sinv:{name:'Sales invoice',short:'Sales',entity:'Sales invoice',attach:'Sales Invoice › Attachment',party:'Customer',fields:[['Customer','Anand & Co',96],['Invoice no.','SINV-0871',94],['Date','16 Nov 2026',97],['Total','₹ 1,12,400.00',91]]}
 };
 const TKEYS=Object.keys(TYPES);
-const ATTACH=['Supplier › GST file','Purchase Invoice › Attachment','Expense › Attachment','Delivery Note › Attachment','Customer › KYC file','No attachment'];
+const ATTACH=['Purchase Invoice › Attachment','Sales Invoice › Attachment','Supplier › File','Customer › File','No attachment'];
+const fval=(d,l)=>{const f=d.fields.find(x=>x.label===l);return f?f.value:''};
 const AUTO=[[2,2],[98,1],[99,98],[1,99]], FULL=[[0,0],[100,0],[100,100],[0,100]];
-const S={screen:'splash',pages:{},loose:[],docs:[],nid:1,approved:0,auto:true,cropId:null,cropBack:'pages',syncing:false,cur:null};
+const S={screen:'splash',pages:{},loose:[],docs:[],nid:1,approved:0,auto:true,cropId:null,cropBack:'pages',syncing:false,cur:null,scanType:'pinv',flt:'all',detail:null};
+const KEY='autod-proto-v2';
+function save(){try{localStorage.setItem(KEY,JSON.stringify({pages:S.pages,loose:S.loose,docs:S.docs,nid:S.nid,approved:S.approved}))}catch(e){}}
+function load(){try{const j=JSON.parse(localStorage.getItem(KEY)||'null');if(!j)return;Object.assign(S,{pages:j.pages,loose:j.loose,docs:j.docs,nid:j.nid,approved:j.approved});
+ S.docs.forEach(d=>{if(['queued','uploading','reading'].includes(d.status)){d.status='draft';d.done=0}})}catch(e){}}
+load();
 const ic={
  inbox:'<path d="M4 13l2-8h12l2 8M4 13v6h16v-6M4 13h5l1 2h4l1-2h5"/>',
  pages:'<rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/>',
@@ -190,7 +206,7 @@ const paperSVG=(type,k,vals)=>`<svg viewBox="0 0 300 400" xmlns="http://www.w3.o
 function paperSlice(d){
  const vals=d.fields.map(f=>f.value);
  const boxes=vals.map(v=>clamp(40+v.length*9,90,260));
- return `<svg viewBox="0 78 300 130" xmlns="http://www.w3.org/2000/svg">${paperInner(d.type,d.pages[0]||1,vals,boxes)}</svg>`;
+ return `<svg viewBox="0 78 300 158" xmlns="http://www.w3.org/2000/svg">${paperInner(d.type,d.pages[0]||1,vals,boxes)}</svg>`;
 }
 const clipPoly=c=>`polygon(${c.map(p=>p[0]+'% '+p[1]+'%').join(',')})`;
 function thumb(pid,cls=''){
@@ -207,9 +223,9 @@ const by=st=>S.docs.filter(d=>d.status===st);
 const inProg=()=>S.docs.filter(d=>['queued','uploading','reading'].includes(d.status));
 const draftCount=()=>S.loose.length+S.docs.filter(d=>d.status==='draft').length;
 function addSample(){
- const g=mkDoc('gst');[0,1,2].forEach(i=>{const id=newPage('gst',i?FULL:AUTO);S.loose.pop();g.pages.push(id)});
- const v=mkDoc('inv');{const id=newPage('inv',AUTO);S.loose.pop();v.pages.push(id)}
- newPage('bill',AUTO);newPage('dn',FULL);
+ const g=mkDoc('pinv');[0,1,2].forEach(i=>{const id=newPage('pinv',i?FULL:AUTO);S.loose.pop();g.pages.push(id)});
+ const v=mkDoc('sinv');{const id=newPage('sinv',AUTO);S.loose.pop();v.pages.push(id)}
+ newPage('pinv',AUTO);newPage('sinv',FULL);
  toast('Added 6 sample pages');go('pages');
 }
 
@@ -220,12 +236,13 @@ const sb=l=>`<div class="sb"></div>`;
 function renderTabs(){
  const hide=['splash','scan','crop'].includes(S.screen);
  if(hide){$('#tabs').innerHTML='';return}
- const t=(k,n,i,b)=>`<div class="${S.screen===k?'on':''}" data-go="${k}">${svgi(i)}${n}${b?`<span class="tb">${b}</span>`:''}</div>`;
+ const cs=S.screen==='detail'?'home':S.screen;
+ const t=(k,n,i,b)=>`<div class="${cs===k?'on':''}" data-go="${k}">${svgi(i)}${n}${b?`<span class="tb">${b}</span>`:''}</div>`;
  $('#tabs').innerHTML=`<div class="tabs">${t('home','Inbox','inbox')}${t('pages','Pages','pages')}<div class="fab" data-go="scan">${svgi('cam')}</div>${t('review','Review','check',by('ready').length||'')}${t('fix','Fix later','warn',by('issue').length||'')}</div>`;
  $$('#tabs [data-go]').forEach(e=>e.onclick=()=>go(e.dataset.go));
 }
 function render(){
- stopScan();$$('.ovl').forEach(e=>e.remove());
+ save();stopScan();$$('.ovl').forEach(e=>e.remove());
  const el=$('#screen');el.className='screen '+S.screen;
  el.innerHTML=SCREENS[S.screen]();renderTabs();(BIND[S.screen]||(()=>{}))();
 }
@@ -240,15 +257,35 @@ home:()=>{
  if(rd)hero=`<div class="hero"><div class="s">Ready for you</div><b>${rd} document${rd>1?'s':''}</b><div class="s">The AI has finished reading. Swipe to approve.</div><span class="go" data-go="review">Start review</span></div>`;
  else if(pr)hero=`<div class="hero"><div class="s">Working on it</div><b>${pr} reading</b><div class="s">You can leave. We will tell you when they are ready.</div><span class="go" data-go="sync">See progress</span></div>`;
  else hero=`<div class="hero"><div class="s">Welcome</div><b>Scan your first document</b><div class="s">Any number of pages. We read it, you just check.</div><span class="go" data-go="scan">Open camera</span></div>`;
- const docs=S.docs.filter(d=>d.status!=='draft').reverse();
+ const all=S.docs.filter(d=>d.pages.length||d.status!=='draft').slice().reverse();
+ const docs=all.filter(d=>S.flt==='all'||d.type===S.flt);
+ const cnt=k=>all.filter(d=>k==='all'||d.type===k).length;
+ const SL={draft:'Not sent',queued:'Queued',uploading:'Uploading',reading:'Reading',ready:'Ready',issue:'Issue',approved:'Approved'};
+ const row=d=>{const T=TYPES[d.type],has=d.fields.length;
+  const sub=has?`${fval(d,T.party)} · ${fval(d,'Invoice no.')}<br>${fval(d,'Total')} · ${d.pages.length} page${d.pages.length>1?'s':''}`:`${d.pages.length} page${d.pages.length>1?'s':''} · ${d.status==='draft'?'not read yet':'reading…'}`;
+  return `<div class="cell" data-doc="${d.id}">${thumb(d.pages[0],'s1')}<div class="tx">${T.name}<small>${sub}</small></div><span class="pill p-${d.status}">${SL[d.status]}</span>${chev}</div>`};
  return sb()+`<div class="nb"><span></span><span></span></div><div class="lt" style="margin-top:-6px">Inbox</div><div class="scroll" style="top:100px">${hero}
  <div class="stats"><div class="stat"><b>${pr}</b><span>Reading</span></div><div class="stat"><b style="color:var(--red)">${fx}</b><span>Fix later</span></div><div class="stat"><b style="color:var(--green)">${S.approved}</b><span>Done</span></div></div>
- ${draftCount()?`<div class="sec">Not sent yet</div><div class="grp"><div class="cell" data-go="pages"><div class="ic" style="background:#8e8e93">${svgi('pages')}</div><div class="tx">${Object.keys(S.pages).length?draftCount()+' item(s) waiting':''}<small>Group and send them</small></div>${chev}</div></div>`:''}
- <div class="sec">Documents</div>${docs.length?`<div class="grp">${docs.map(d=>`<div class="cell" data-doc="${d.id}"><div class="ic" style="background:var(--purple)">${svgi('doc')}</div><div class="tx">${TYPES[d.type].name}<small>${d.pages.length} page${d.pages.length>1?'s':''}</small></div><span class="pill p-${d.status}">${{queued:'Queued',uploading:'Uploading',reading:'Reading',ready:'Ready',issue:'Issue',approved:'Approved'}[d.status]}</span></div>`).join('')}</div>`:
- `<div class="grp"><div class="cell" data-sample><div class="ic" style="background:var(--blue)">${svgi('pages')}</div><div class="tx">Try sample documents<small>Adds 6 demo pages to play with</small></div>${chev}</div></div>`}
+ <div class="sec">All documents</div>
+ <div class="seg">${[['all','All'],['pinv','Purchase'],['sinv','Sales']].map(([k,n])=>`<div data-flt="${k}" class="${S.flt===k?'on':''}">${n} (${cnt(k)})</div>`).join('')}</div>
+ <div style="height:12px"></div>
+ ${docs.length?`<div class="grp">${docs.map(row).join('')}</div>`:
+ `<div class="grp"><div class="cell" data-sample><div class="ic" style="background:var(--blue)">${svgi('pages')}</div><div class="tx">${all.length?'Nothing in this filter':'Try sample documents'}<small>${all.length?'Scan a '+(TYPES[S.flt]||{name:'document'}).name.toLowerCase():'Adds demo purchase and sales invoices'}</small></div>${chev}</div></div>`}
  </div>`},
+detail:()=>{
+ const d=S.docs.find(x=>x.id===S.detail);if(!d)return SCREENS.home();
+ const T=TYPES[d.type],has=d.fields.length;
+ const SL={draft:'Not sent',queued:'Queued',uploading:'Uploading',reading:'Reading',ready:'Ready to review',issue:'Issue',approved:'Approved'};
+ return sb()+`<div class="nb"><button data-go="home">&lsaquo; Inbox</button><span class="mid">${T.short} invoice</span><span></span></div>
+ <div class="scroll" style="top:60px"><div class="dhero">${thumb(d.pages[0])}<div><b>${T.name}</b><span class="pill p-${d.status}">${SL[d.status]}</span><div class="val" style="font-size:14px;margin-top:8px">${d.pages.length} page${d.pages.length>1?'s':''}</div></div></div>
+ <div class="sec">Details read from the scan</div>
+ ${has?`<div class="grp">${d.fields.map(f=>`<div class="cell" style="min-height:48px"><div class="tx">${f.label}</div><div class="rt">${f.value}</div><em class="cf ${f.conf<92?'lo':''}" style="font-style:normal;margin:0">${f.conf}%</em></div>`).join('')}</div>`:`<div class="grp"><div class="cell"><div class="tx">Not read yet<small>${d.status==='draft'?'Send it from the Pages tab and the AI will fill these in.':'The AI is reading it now.'}</small></div></div></div>`}
+ <div class="sec">Pages</div><div class="pgs">${d.pages.map(id=>thumb(id)).join('')}</div>
+ <div class="sec">Goes into your system as</div>
+ <div class="grp"><div class="cell"><div class="ic" style="background:var(--blue)">${svgi('clip')}</div><div class="tx">${T.entity}<small>File attached to: ${d.attach}</small></div></div></div>
+ ${d.status==='ready'?`<button class="btn" data-go="review">Review now</button>`:d.status==='issue'?`<button class="btn" data-go="fix">Fix it</button>`:d.status==='draft'?`<button class="btn" data-go="pages">Group and send</button>`:''}</div>`},
 scan:()=>`<div class="scan screen">${sb(1)}<div class="nb" style="color:#ffd60a"><button data-go="home" style="color:#ffd60a">Close</button><div class="tog" id="tog"><span style="color:#fff">Auto</span><div class="sw ${S.auto?'on':''}"></div></div><span style="color:#fff" id="cnt">${Object.keys(S.pages).length} pages</span></div>
- <div class="vf" id="vf"><div class="live" id="live"><div class="pap" id="pap"></div><div class="quad" id="quad"></div></div><div class="chipf" id="chip">Looking for edges…</div><div class="flash" id="flash"></div></div>
+ <div class="vf" id="vf"><div class="live" id="live"><div class="pap" id="pap"></div><div class="quad" id="quad"></div></div><div class="chipf" id="chip">Looking for edges…</div><div class="tsw" id="tsw">${TKEYS.map(k=>`<div data-t="${k}" class="${S.scanType===k?'on':''}">${TYPES[k].name}</div>`).join('')}</div><div class="flash" id="flash"></div></div>
  <div class="ctl"><div class="strip" id="strip"></div><div class="shut" id="shut"></div><div class="l" data-go="home">Cancel</div><div class="r" data-go="pages">Done</div><div style="position:absolute;bottom:34px;left:0;right:0;text-align:center;font-size:12px;color:#8e8e93">Hold steady. Pages are cropped automatically.</div></div></div>`,
 crop:()=>{const p=S.pages[S.cropId];return `<div class="crop screen">${sb(1)}<div class="nb" style="color:#ffd60a"><button style="color:#ffd60a" data-back>Cancel</button><span style="color:#fff;font-weight:600">Crop page</span><button style="color:#ffd60a;font-weight:600" data-back="1">Done</button></div>
  <div class="cbox" id="cbox"><div class="pg">${paperSVG(p.type,p.id)}</div><svg class="ov" viewBox="0 0 100 100" preserveAspectRatio="none"><path id="mask" fill="#000" fill-opacity=".62" fill-rule="evenodd"/><polygon id="poly" fill="none" stroke="#ffd60a" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>${[0,1,2,3].map(i=>`<div class="hd" data-h="${i}"></div>`).join('')}</div>
@@ -297,12 +334,15 @@ splash(){$('.splash').onclick=()=>go('home');clearTimeout(BIND.st);BIND.st=setTi
 home(){
  $$('#screen [data-go]').forEach(e=>e.onclick=()=>go(e.dataset.go));
  $$('#screen [data-sample]').forEach(e=>e.onclick=addSample);
- $$('#screen [data-doc]').forEach(e=>e.onclick=()=>{const d=S.docs.find(x=>x.id===e.dataset.doc);go(d.status==='ready'?'review':d.status==='issue'?'fix':'sync')});
+ $$('#screen [data-doc]').forEach(e=>e.onclick=()=>go('detail',{detail:e.dataset.doc}));
+ $$('#screen [data-flt]').forEach(e=>e.onclick=()=>{S.flt=e.dataset.flt;render()});
 },
+detail(){$$('#screen [data-go]').forEach(e=>e.onclick=()=>go(e.dataset.go))},
 scan(){
  $$('#screen [data-go]').forEach(e=>e.onclick=()=>go(e.dataset.go));
  $('#tog').onclick=()=>{S.auto=!S.auto;$('#tog .sw').classList.toggle('on',S.auto);if(S.auto)armAuto()};
  $('#shut').onclick=()=>capture();
+ $$('#tsw [data-t]').forEach(e=>e.onclick=()=>{S.scanType=e.dataset.t;$$('#tsw [data-t]').forEach(x=>x.classList.toggle('on',x===e));stopScan();newSheet()});
  strip();newSheet();
 },
 crop(){
@@ -358,7 +398,7 @@ function strip(){
 }
 function newSheet(){
  const live=$('#live');if(!live)return;
- S.cur=TKEYS[Math.floor(Math.random()*TKEYS.length)];
+ S.cur=S.scanType;
  live.style.setProperty('--rot',(Math.random()*8-4).toFixed(1)+'deg');
  live.className='live in';$('#pap').innerHTML=paperSVG(S.cur,Math.floor(Math.random()*20));
  $('#quad').className='quad';$('#chip').textContent='Looking for edges…';
