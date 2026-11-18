@@ -6,22 +6,18 @@
 :root{--blue:#007aff;--green:#34c759;--orange:#ff9500;--red:#ff3b30;--purple:#5856d6;--bg:#f2f2f7;--card:#fff;--sep:#c6c6c8;--l2:#8e8e93}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%}
-body{background:#cfd1d9;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;color:#000;display:flex;justify-content:center;align-items:flex-start;overflow:hidden;user-select:none;-webkit-user-select:none}
-#stage{transform-origin:top center;padding-top:14px}
-.phone{width:390px;height:810px;background:var(--bg);border-radius:54px;border:11px solid #1c1c1e;overflow:hidden;position:relative;box-shadow:0 40px 80px #0005}
-.island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:104px;height:30px;background:#000;border-radius:18px;z-index:50}
-.hb{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);width:130px;height:5px;border-radius:3px;background:#000;z-index:60;pointer-events:none}
-.hb.light{background:#fff}
+body{background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;color:#000;display:flex;justify-content:center;overflow:hidden;user-select:none;-webkit-user-select:none}
+#stage{width:100%;max-width:480px;height:100%}
+.phone{width:100%;height:100%;background:var(--bg);overflow:hidden;position:relative;box-shadow:0 0 0 1px #0001}
 .screen{position:absolute;inset:0;overflow:hidden}
-.sb{height:54px;display:flex;justify-content:space-between;align-items:flex-end;padding:0 32px 8px;font-size:15px;font-weight:600}
-.sb.l{color:#fff}
+.sb{height:10px}
 .nb{height:44px;padding:0 16px;display:flex;justify-content:space-between;align-items:center;color:var(--blue);font-size:17px}
 .nb .mid{color:#000;font-weight:600}.nb .dim{color:var(--l2)}
 .nb button,.link{background:none;border:0;color:var(--blue);font:inherit;padding:6px 2px;cursor:pointer}
 .nb button:disabled{color:#c4c4c7}
 .lt{font-size:34px;font-weight:700;letter-spacing:.35px;padding:2px 20px 10px}
-.scroll{position:absolute;top:150px;bottom:0;left:0;right:0;overflow-y:auto;padding-bottom:110px}
-.scroll.t2{top:108px}
+.scroll{position:absolute;top:106px;bottom:0;left:0;right:0;overflow-y:auto;padding-bottom:110px}
+.scroll.t2{top:64px}
 .scroll::-webkit-scrollbar{display:none}
 .sec{font-size:13px;color:var(--l2);text-transform:uppercase;padding:16px 36px 7px;letter-spacing:.2px}
 .sec.n{text-transform:none;padding-top:8px}
@@ -38,7 +34,7 @@ body{background:#cfd1d9;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Tex
 .pill{border-radius:11px;padding:3px 9px;font-size:12px;font-weight:600;white-space:nowrap}
 .p-draft{background:#e5e5ea;color:#636366}.p-queued{background:#e5e5ea;color:#636366}.p-uploading{background:#d6e8ff;color:#0060d0}
 .p-reading{background:#e4e3fb;color:#4846c4}.p-ready{background:#d4f5dc;color:#1b8a3a}.p-issue{background:#ffdad7;color:#c42a20}.p-approved{background:#d4f5dc;color:#1b8a3a}
-.tabs{position:absolute;left:0;right:0;bottom:0;height:90px;background:#f9f9f9e6;backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border-top:.5px solid #b2b2b7;display:flex;justify-content:space-around;padding-top:8px;font-size:10px;color:var(--l2);z-index:20}
+.tabs{position:absolute;left:0;right:0;bottom:0;height:68px;background:#f9f9f9e6;backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border-top:.5px solid #b2b2b7;display:flex;justify-content:space-around;padding-top:8px;font-size:10px;color:var(--l2);z-index:20}
 .tabs>div{text-align:center;width:64px;cursor:pointer;position:relative}
 .tabs svg{width:27px;height:27px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;display:block;margin:0 auto 2px}
 .tabs .on{color:var(--blue)}
@@ -58,7 +54,7 @@ body{background:#cfd1d9;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Tex
 .th.s1{width:40px;height:52px;flex:none;border-radius:5px}
 /* scan */
 .scan{background:#000;color:#fff}
-.vf{position:absolute;top:100px;left:0;right:0;bottom:200px;background:radial-gradient(ellipse at 50% 40%,#3a3a3c,#151517);overflow:hidden}
+.vf{position:absolute;top:56px;left:0;right:0;bottom:200px;background:radial-gradient(ellipse at 50% 40%,#3a3a3c,#151517);overflow:hidden}
 .live{position:absolute;left:50%;top:50%;width:58%;aspect-ratio:3/4;margin-left:-29%;transform:translateY(-50%) rotate(var(--rot,-2deg));transition:transform .4s,opacity .4s;filter:drop-shadow(0 12px 14px #0008)}
 .live.out{transform:translateY(-140%) rotate(var(--rot,-2deg));opacity:0}
 .live.in{animation:slin .45s ease-out}
@@ -80,7 +76,7 @@ body{background:#cfd1d9;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Tex
 .sw{width:40px;height:24px;border-radius:12px;background:#555;position:relative;transition:.2s}.sw:after{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.2s}.sw.on{background:#30d158}.sw.on:after{left:18px}
 /* crop */
 .crop{background:#000;color:#fff}
-.cbox{position:absolute;left:36px;right:36px;top:130px;aspect-ratio:3/4;touch-action:none}
+.cbox{position:absolute;left:50%;transform:translateX(-50%);top:90px;height:calc(100% - 250px);aspect-ratio:3/4;max-width:calc(100% - 48px);touch-action:none}
 .cbox .pg{position:absolute;inset:0}.cbox .pg svg{width:100%;height:100%;display:block}
 .cbox .ov{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .hd{position:absolute;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;background:#ffd60a;border:3px solid #fff;box-shadow:0 2px 8px #0008;touch-action:none;cursor:grab}
@@ -105,7 +101,7 @@ body{background:#cfd1d9;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Tex
 .bar i.rd{background:var(--purple);animation:ind 1.1s infinite linear;background-image:linear-gradient(90deg,#5856d6 25%,#a5a3f5 50%,#5856d6 75%);background-size:200% 100%}
 @keyframes ind{to{background-position:-200% 0}}
 /* review */
-.deck{position:absolute;left:16px;right:16px;top:140px;height:480px}
+.deck{position:absolute;left:16px;right:16px;top:96px;height:480px}
 .k{position:absolute;left:0;right:0;top:0;height:462px;border-radius:26px;background:#fff;box-shadow:0 12px 30px #0002;padding:18px;transition:transform .3s,opacity .3s;touch-action:none;will-change:transform}
 .k.k1{transform:translateY(14px) scale(.95);opacity:.85}.k.k2{transform:translateY(28px) scale(.9);opacity:.6}
 .k.k1 *,.k.k2 *{visibility:hidden}
@@ -116,12 +112,12 @@ body{background:#cfd1d9;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Tex
 .cf{font-size:11px;font-weight:700;border-radius:8px;padding:1px 6px;margin-left:7px;background:#d4f5dc;color:#1b8a3a}.cf.lo{background:#ffecc9;color:#b86e00}
 .stamp{position:absolute;top:26px;font-size:22px;font-weight:800;border:4px solid;border-radius:10px;padding:1px 12px;opacity:0;pointer-events:none;letter-spacing:1px}
 .st-ok{left:22px;color:var(--green);transform:rotate(-14deg)}.st-no{right:22px;color:var(--red);transform:rotate(14deg)}.st-ed{left:50%;margin-left:-34px;top:60px;color:var(--orange)}
-.acts{position:absolute;left:0;right:0;bottom:104px;display:flex;justify-content:center;gap:26px}
+.acts{position:absolute;left:0;right:0;bottom:84px;display:flex;justify-content:center;gap:26px}
 .ab{text-align:center;font-size:12px;color:var(--l2);cursor:pointer}
 .ab div{width:60px;height:60px;border-radius:50%;margin:0 auto 5px;display:flex;align-items:center;justify-content:center;background:#fff;box-shadow:0 2px 8px #0002}
 .ab.main div{width:68px;height:68px;margin-top:-4px;background:var(--green)}
 .ab svg{width:28px;height:28px;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
-.hint{position:absolute;left:0;right:0;bottom:92px;text-align:center;font-size:13px;color:var(--l2)}
+.hint{position:absolute;left:0;right:0;bottom:70px;text-align:center;font-size:13px;color:var(--l2)}
 /* fix */
 .fx{background:#fff;margin:0 16px 12px;border-radius:16px;padding:14px}
 .fx .top{display:flex;gap:12px;align-items:center}
@@ -137,26 +133,17 @@ body{background:#cfd1d9;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Tex
 .edsheet{background:var(--bg);border-radius:22px 22px 0 0;padding:10px 0 34px;animation:su .25s}
 .edsheet .grab{width:38px;height:5px;background:#c7c7cc;border-radius:3px;margin:0 auto 6px}
 .edsheet input{border:0;background:none;text-align:right;font:inherit;font-size:17px;color:#000;width:55%;outline:none}
-.toast{position:absolute;left:50%;top:62px;transform:translate(-50%,-30px);background:#1c1c1ee6;color:#fff;border-radius:22px;padding:10px 18px;font-size:14px;z-index:90;opacity:0;transition:.3s;white-space:nowrap;pointer-events:none}.toast.on{opacity:1;transform:translate(-50%,0)}
+.toast{position:absolute;left:50%;top:14px;transform:translate(-50%,-30px);background:#1c1c1ee6;color:#fff;border-radius:22px;padding:10px 18px;font-size:14px;z-index:90;opacity:0;transition:.3s;white-space:nowrap;pointer-events:none}.toast.on{opacity:1;transform:translate(-50%,0)}
 /* splash */
 .splash{background:linear-gradient(160deg,#0a84ff,#5e5ce6);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer}
 .logo{width:110px;height:110px;border-radius:28px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 20px 40px #0004;animation:pop .8s cubic-bezier(.2,1.4,.4,1)}
 .logo svg{width:64px;height:64px;fill:none;stroke:#0a84ff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 @keyframes pop{from{transform:scale(.3);opacity:0}to{transform:none;opacity:1}}
 .splash h1{font-size:36px;margin:22px 0 4px;animation:fi 1s}.splash p{margin:0;opacity:.85;font-size:17px;animation:fi 1.4s}
-.side{position:fixed;left:24px;top:24px;width:230px;font-size:13px;color:#3a3a3c;line-height:1.5}
-.side h3{margin:0 0 6px;font-size:15px}.side div{margin-bottom:10px}
-@media (max-width:1000px){.side{display:none}}
-@media (max-width:520px){body{align-items:stretch}#stage{padding:0;width:100%;transform:none!important}.phone{width:100vw;height:100vh;border:0;border-radius:0}.island{display:none}.hb{display:none}.side{display:none}}
+.ic2{width:56px;height:56px;stroke:#c4c4c7;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;display:block;margin:0 auto 10px}
+.cbar svg{width:26px;height:26px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;display:block;margin:0 auto 4px}
 </style></head><body>
-<div class="side"><h3>auto-d prototype</h3>
-<div><b>Try it:</b> tap the screen to open. Use <b>Try sample documents</b>, or the blue camera button to scan.</div>
-<div><b>Scan:</b> edges snap on by themselves. Tap the shutter, or leave Auto on.</div>
-<div><b>Crop:</b> tap any page and drag the four yellow dots.</div>
-<div><b>Pages:</b> press and drag a page to reorder it, or drop it on another document.</div>
-<div><b>Review:</b> drag the card right = approve, left = issue, up = edit.</div>
-<div style="color:#6b6b70">Camera and AI are simulated. No data leaves this page.</div></div>
-<div id="stage"><div class="phone" id="phone"><div class="island"></div><div class="screen" id="screen"></div><div id="tabs"></div><div class="toast" id="toast"></div><div class="hb" id="hb"></div></div></div>
+<div id="stage"><div class="phone" id="phone"><div class="screen" id="screen"></div><div id="tabs"></div><div class="toast" id="toast"></div></div></div>
 <script>
 "use strict";
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
@@ -229,10 +216,9 @@ function addSample(){
 /* ---------- navigation ---------- */
 function go(s,o){Object.assign(S,o||{});S.screen=s;render()}
 function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),2200)}
-const sb=l=>`<div class="sb ${l?'l':''}"><span>9:41</span><span>5G &#9646;&#9646;&#9646; 100%</span></div>`;
+const sb=l=>`<div class="sb"></div>`;
 function renderTabs(){
  const hide=['splash','scan','crop'].includes(S.screen);
- $('#hb').className='hb'+(['scan','crop','splash'].includes(S.screen)?' light':'');
  if(hide){$('#tabs').innerHTML='';return}
  const t=(k,n,i,b)=>`<div class="${S.screen===k?'on':''}" data-go="${k}">${svgi(i)}${n}${b?`<span class="tb">${b}</span>`:''}</div>`;
  $('#tabs').innerHTML=`<div class="tabs">${t('home','Inbox','inbox')}${t('pages','Pages','pages')}<div class="fab" data-go="scan">${svgi('cam')}</div>${t('review','Review','check',by('ready').length||'')}${t('fix','Fix later','warn',by('issue').length||'')}</div>`;
@@ -255,7 +241,7 @@ home:()=>{
  else if(pr)hero=`<div class="hero"><div class="s">Working on it</div><b>${pr} reading</b><div class="s">You can leave. We will tell you when they are ready.</div><span class="go" data-go="sync">See progress</span></div>`;
  else hero=`<div class="hero"><div class="s">Welcome</div><b>Scan your first document</b><div class="s">Any number of pages. We read it, you just check.</div><span class="go" data-go="scan">Open camera</span></div>`;
  const docs=S.docs.filter(d=>d.status!=='draft').reverse();
- return sb()+`<div class="nb"><span></span><span></span></div><div class="lt" style="margin-top:-6px">Inbox</div><div class="scroll" style="top:112px">${hero}
+ return sb()+`<div class="nb"><span></span><span></span></div><div class="lt" style="margin-top:-6px">Inbox</div><div class="scroll" style="top:68px">${hero}
  <div class="stats"><div class="stat"><b>${pr}</b><span>Reading</span></div><div class="stat"><b style="color:var(--red)">${fx}</b><span>Fix later</span></div><div class="stat"><b style="color:var(--green)">${S.approved}</b><span>Done</span></div></div>
  ${draftCount()?`<div class="sec">Not sent yet</div><div class="grp"><div class="cell" data-go="pages"><div class="ic" style="background:#8e8e93">${svgi('pages')}</div><div class="tx">${Object.keys(S.pages).length?draftCount()+' item(s) waiting':''}<small>Group and send them</small></div>${chev}</div></div>`:''}
  <div class="sec">Documents</div>${docs.length?`<div class="grp">${docs.map(d=>`<div class="cell" data-doc="${d.id}"><div class="ic" style="background:var(--purple)">${svgi('doc')}</div><div class="tx">${TYPES[d.type].name}<small>${d.pages.length} page${d.pages.length>1?'s':''}</small></div><span class="pill p-${d.status}">${{queued:'Queued',uploading:'Uploading',reading:'Reading',ready:'Ready',issue:'Issue',approved:'Approved'}[d.status]}</span></div>`).join('')}</div>`:
@@ -266,14 +252,14 @@ scan:()=>`<div class="scan screen">${sb(1)}<div class="nb" style="color:#ffd60a"
  <div class="ctl"><div class="strip" id="strip"></div><div class="shut" id="shut"></div><div class="l" data-go="home">Cancel</div><div class="r" data-go="pages">Done</div><div style="position:absolute;bottom:34px;left:0;right:0;text-align:center;font-size:12px;color:#8e8e93">Hold steady. Pages are cropped automatically.</div></div></div>`,
 crop:()=>{const p=S.pages[S.cropId];return `<div class="crop screen">${sb(1)}<div class="nb" style="color:#ffd60a"><button style="color:#ffd60a" data-back>Cancel</button><span style="color:#fff;font-weight:600">Crop page</span><button style="color:#ffd60a;font-weight:600" data-back="1">Done</button></div>
  <div class="cbox" id="cbox"><div class="pg">${paperSVG(p.type,p.id)}</div><svg class="ov" viewBox="0 0 100 100" preserveAspectRatio="none"><path id="mask" fill="#000" fill-opacity=".62" fill-rule="evenodd"/><polygon id="poly" fill="none" stroke="#ffd60a" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>${[0,1,2,3].map(i=>`<div class="hd" data-h="${i}"></div>`).join('')}</div>
- <div style="position:absolute;left:0;right:0;top:100px;text-align:center;color:#aeaeb2;font-size:13px">Drag the yellow dots to the page corners</div>
- <div class="cbar"><button id="cauto"><b>&#10022;</b>Auto crop</button><button id="cfull"><b>&#9635;</b>Full page</button><button class="del" id="cdel"><b>&#128465;</b>Delete</button></div></div>`},
+ <div style="position:absolute;left:0;right:0;top:56px;text-align:center;color:#aeaeb2;font-size:13px">Drag the yellow dots to the page corners</div>
+ <div class="cbar"><button id="cauto"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></svg>Auto crop</button><button id="cfull"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>Full page</button><button class="del" id="cdel"><svg viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>Delete</button></div></div>`},
 pages:()=>{
  cleanDocs();const drafts=S.docs.filter(d=>d.status==='draft');
  const tile=(id,i)=>`<div class="tile" data-page="${id}"><span class="n">${i+1}</span>${thumb(id).replace('class="th ','class="th" style="width:100%;height:100%" data-x="').replace('data-x=""','')}</div>`;
  const none=!S.loose.length&&!drafts.length;
  return sb()+`<div class="nb"><span></span><span class="mid"></span><button id="sendTop" ${draftCount()?'':'disabled'}>Send</button></div><div class="lt" style="margin-top:-6px">Pages</div>
- <div class="scroll" style="top:112px">${none?`<div class="empty"><div class="big">&#128196;</div>No pages yet.<br>Scan some, or use the sample documents.<br><button class="btn" style="margin-top:20px" data-sample>Try sample documents</button></div>`:
+ <div class="scroll" style="top:68px">${none?`<div class="empty"><svg class="ic2" viewBox="0 0 24 24">${ic.doc}</svg>No pages yet.<br>Scan some, or use the sample documents.<br><button class="btn" style="margin-top:20px" data-sample>Try sample documents</button></div>`:
  `<div class="sec n" style="padding-top:0">Press and drag a page to reorder or move it. Tap a page to crop.</div>
  ${drafts.map(d=>`<div class="docc" data-zone="${d.id}"><div class="dh"><b>${TYPES[d.type].name}</b><span class="link" data-type="${d.id}">Change</span></div><div class="gridp">${d.pages.map((id,i)=>tile(id,i)).join('')}</div><div class="chip" data-att="${d.id}">${svgi('clip').replace('<svg','<svg width="14" height="14" style="stroke:#007aff;fill:none;stroke-width:2"')} ${d.attach}</div></div>`).join('')}
  <div class="loosez" data-zone="loose"><b style="color:#000;font-size:15px">Loose pages</b> <span>(sent one by one)</span><div class="gridp" style="margin-top:10px">${S.loose.map((id,i)=>tile(id,i)).join('')||'<span style="grid-column:span 4;padding:14px 0">Drop pages here to un-group them</span>'}</div></div>
@@ -284,13 +270,13 @@ sync:()=>{
  const lab=d=>d.status==='queued'?'Waiting':d.status==='uploading'?`Uploading page ${d.done} of ${d.pages.length}`:d.status==='reading'?'Reading the pages…':'Ready';
  const pc=d=>d.status==='queued'?4:d.status==='uploading'?20+d.done/d.pages.length*50:d.status==='reading'?85:100;
  const ok=!inProg().length&&by('ready').length;
- return sb()+`<div class="nb"><button data-go="pages">&lsaquo; Pages</button><span></span><span></span></div><div class="lt" style="margin-top:-6px">Sending</div><div class="scroll" style="top:112px">
+ return sb()+`<div class="nb"><button data-go="pages">&lsaquo; Pages</button><span></span><span></span></div><div class="lt" style="margin-top:-6px">Sending</div><div class="scroll" style="top:68px">
  ${docs.length?`<div class="grp">${docs.filter(d=>['queued','uploading','reading','ready'].includes(d.status)).map(d=>`<div class="cell" style="display:block"><div style="display:flex;align-items:center;gap:10px"><div class="tx">${TYPES[d.type].name}<small>${lab(d)}</small></div><span class="pill p-${d.status}">${d.status}</span></div><div class="bar"><i class="${d.status==='reading'?'rd':''}" style="width:${pc(d)}%"></i></div></div>`).join('')}</div>`:'<div class="empty">Nothing is being sent.</div>'}
  <div class="sec n" style="padding-top:12px">Pages upload one by one. The phone keeps your originals until the system confirms they are stored.</div>
  ${ok?`<button class="btn" data-go="review">Start review (${by('ready').length})</button>`:''}</div>`},
 review:()=>{
  const q=by('ready');
- if(!q.length)return sb()+`<div class="nb"><span></span><span></span></div><div class="lt" style="margin-top:-6px">Review</div><div class="empty"><div class="big">&#10004;&#65039;</div>All caught up.<br>${inProg().length?'More are being read.':'Nothing waiting for review.'}</div>`;
+ if(!q.length)return sb()+`<div class="nb"><span></span><span></span></div><div class="lt" style="margin-top:-6px">Review</div><div class="empty"><svg class="ic2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg>All caught up.<br>${inProg().length?'More are being read.':'Nothing waiting for review.'}</div>`;
  const card=(d,i)=>{const p=d.pages.length;return `<div class="k k${i}" data-card="${d.id}"><span class="stamp st-ok">APPROVE</span><span class="stamp st-no">ISSUE</span><span class="stamp st-ed">EDIT</span>
  <div class="h">${TYPES[d.type].entity}</div><div class="sub">${TYPES[d.type].name} &middot; page 1 of ${p}</div><div class="prev">${paperSlice(d)}</div>
  <div style="margin-top:8px">${d.fields.map(f=>`<div class="fld"><span>${f.label}</span><b>${f.value}<em class="cf ${f.conf<92?'lo':''}" style="font-style:normal">${f.conf}%</em></b></div>`).join('')}</div></div>`};
@@ -301,8 +287,8 @@ review:()=>{
  <div class="hint">Drag the card: right approve, left issue, up edit</div>`},
 fix:()=>{
  const f=by('issue');
- return sb()+`<div class="nb"><span></span><span></span></div><div class="lt" style="margin-top:-6px">Fix later</div><div class="scroll" style="top:112px">${f.length?`<div class="sec n" style="padding-top:0">Nothing here is deleted. Fix it when you have time.</div>`+f.map(d=>`<div class="fx"><div class="top">${thumb(d.pages[0],'s1')}<div class="tx">${TYPES[d.type].name}<small>${d.pages.length} page(s) &middot; marked with an issue</small></div><span class="pill p-issue">Issue</span></div>
- <div><button class="btn sm" data-fx="crop" data-d="${d.id}">Re-crop</button><button class="btn sm sec2" data-fx="scan" data-d="${d.id}">Re-scan</button><button class="btn sm sec2" data-fx="group" data-d="${d.id}">Regroup</button><button class="btn sm sec2" data-fx="fixed" data-d="${d.id}">Mark fixed</button><button class="btn sm sec2" style="color:var(--red)" data-fx="clear" data-d="${d.id}">Clear</button></div></div>`).join(''):`<div class="empty"><div class="big">&#127881;</div>Nothing to fix.</div>`}</div>`}
+ return sb()+`<div class="nb"><span></span><span></span></div><div class="lt" style="margin-top:-6px">Fix later</div><div class="scroll" style="top:68px">${f.length?`<div class="sec n" style="padding-top:0">Nothing here is deleted. Fix it when you have time.</div>`+f.map(d=>`<div class="fx"><div class="top">${thumb(d.pages[0],'s1')}<div class="tx">${TYPES[d.type].name}<small>${d.pages.length} page(s) &middot; marked with an issue</small></div><span class="pill p-issue">Issue</span></div>
+ <div><button class="btn sm" data-fx="crop" data-d="${d.id}">Re-crop</button><button class="btn sm sec2" data-fx="scan" data-d="${d.id}">Re-scan</button><button class="btn sm sec2" data-fx="group" data-d="${d.id}">Regroup</button><button class="btn sm sec2" data-fx="fixed" data-d="${d.id}">Mark fixed</button><button class="btn sm sec2" style="color:var(--red)" data-fx="clear" data-d="${d.id}">Clear</button></div></div>`).join(''):`<div class="empty"><svg class="ic2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg>Nothing to fix.</div>`}</div>`}
 };
 
 /* ---------- bindings ---------- */
@@ -503,10 +489,5 @@ function sheet(title,opts){
 }
 
 /* ---------- fit to window ---------- */
-function fit(){
- const st=$('#stage');if(innerWidth<=520){st.style.transform='';return}
- const sc=Math.min(1,(innerHeight-24)/(810+22+14));st.style.transform=`scale(${sc})`;
-}
-addEventListener('resize',fit);fit();
 render();
 </script></body></html>
