@@ -425,13 +425,17 @@ function bindDrag(){
     if(ev.clientY<b.top+50)sc.scrollTop-=8;else if(ev.clientY>b.bottom-110)sc.scrollTop+=8;
    }
   };
+  const done=()=>{window.removeEventListener('pointermove',mv);window.removeEventListener('pointerup',up);window.removeEventListener('pointercancel',cancel)};
   const up=ev=>{
-   window.removeEventListener('pointermove',mv);
+   done();
    if(!moved){go('crop',{cropId:id,cropBack:'pages'});return}
-   ghost.remove();dropPage(id,ev.clientX,ev.clientY);
+   ghost&&ghost.remove();dropPage(id,ev.clientX,ev.clientY);
   };
-  window.addEventListener('pointermove',mv);window.addEventListener('pointerup',up,{once:true});
+  const cancel=()=>{done();ghost&&ghost.remove();render()};
+  e.preventDefault();
+  window.addEventListener('pointermove',mv);window.addEventListener('pointerup',up);window.addEventListener('pointercancel',cancel);
  }));
+ $$('#screen .tile').forEach(t=>t.addEventListener('dragstart',e=>e.preventDefault()));
 }
 function dropPage(pid,x,y){
  const el=document.elementFromPoint(x,y),zone=el&&el.closest('[data-zone]');
