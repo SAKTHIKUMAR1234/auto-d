@@ -101,8 +101,8 @@ body{background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"SF Pro T
 .bar i.rd{background:var(--purple);animation:ind 1.1s infinite linear;background-image:linear-gradient(90deg,#5856d6 25%,#a5a3f5 50%,#5856d6 75%);background-size:200% 100%}
 @keyframes ind{to{background-position:-200% 0}}
 /* review */
-.deck{position:absolute;left:16px;right:16px;top:96px;height:480px}
-.k{position:absolute;left:0;right:0;top:0;height:462px;border-radius:26px;background:#fff;box-shadow:0 12px 30px #0002;padding:18px;transition:transform .3s,opacity .3s;touch-action:none;will-change:transform}
+.deck{position:absolute;left:16px;right:16px;top:96px;bottom:178px;max-height:520px}
+.k{position:absolute;left:0;right:0;top:0;height:calc(100% - 28px);overflow:hidden;border-radius:26px;background:#fff;box-shadow:0 12px 30px #0002;padding:18px;transition:transform .3s,opacity .3s;touch-action:none;will-change:transform}
 .k.k1{transform:translateY(14px) scale(.95);opacity:.85}.k.k2{transform:translateY(28px) scale(.9);opacity:.6}
 .k.k1 *,.k.k2 *{visibility:hidden}
 .k.k0{cursor:grab;z-index:5}
@@ -241,7 +241,7 @@ home:()=>{
  else if(pr)hero=`<div class="hero"><div class="s">Working on it</div><b>${pr} reading</b><div class="s">You can leave. We will tell you when they are ready.</div><span class="go" data-go="sync">See progress</span></div>`;
  else hero=`<div class="hero"><div class="s">Welcome</div><b>Scan your first document</b><div class="s">Any number of pages. We read it, you just check.</div><span class="go" data-go="scan">Open camera</span></div>`;
  const docs=S.docs.filter(d=>d.status!=='draft').reverse();
- return sb()+`<div class="nb"><span></span><span></span></div><div class="lt" style="margin-top:-6px">Inbox</div><div class="scroll" style="top:68px">${hero}
+ return sb()+`<div class="nb"><span></span><span></span></div><div class="lt" style="margin-top:-6px">Inbox</div><div class="scroll" style="top:100px">${hero}
  <div class="stats"><div class="stat"><b>${pr}</b><span>Reading</span></div><div class="stat"><b style="color:var(--red)">${fx}</b><span>Fix later</span></div><div class="stat"><b style="color:var(--green)">${S.approved}</b><span>Done</span></div></div>
  ${draftCount()?`<div class="sec">Not sent yet</div><div class="grp"><div class="cell" data-go="pages"><div class="ic" style="background:#8e8e93">${svgi('pages')}</div><div class="tx">${Object.keys(S.pages).length?draftCount()+' item(s) waiting':''}<small>Group and send them</small></div>${chev}</div></div>`:''}
  <div class="sec">Documents</div>${docs.length?`<div class="grp">${docs.map(d=>`<div class="cell" data-doc="${d.id}"><div class="ic" style="background:var(--purple)">${svgi('doc')}</div><div class="tx">${TYPES[d.type].name}<small>${d.pages.length} page${d.pages.length>1?'s':''}</small></div><span class="pill p-${d.status}">${{queued:'Queued',uploading:'Uploading',reading:'Reading',ready:'Ready',issue:'Issue',approved:'Approved'}[d.status]}</span></div>`).join('')}</div>`:
@@ -259,7 +259,7 @@ pages:()=>{
  const tile=(id,i)=>`<div class="tile" data-page="${id}"><span class="n">${i+1}</span>${thumb(id).replace('class="th ','class="th" style="width:100%;height:100%" data-x="').replace('data-x=""','')}</div>`;
  const none=!S.loose.length&&!drafts.length;
  return sb()+`<div class="nb"><span></span><span class="mid"></span><button id="sendTop" ${draftCount()?'':'disabled'}>Send</button></div><div class="lt" style="margin-top:-6px">Pages</div>
- <div class="scroll" style="top:68px">${none?`<div class="empty"><svg class="ic2" viewBox="0 0 24 24">${ic.doc}</svg>No pages yet.<br>Scan some, or use the sample documents.<br><button class="btn" style="margin-top:20px" data-sample>Try sample documents</button></div>`:
+ <div class="scroll" style="top:100px">${none?`<div class="empty"><svg class="ic2" viewBox="0 0 24 24">${ic.doc}</svg>No pages yet.<br>Scan some, or use the sample documents.<br><button class="btn" style="margin-top:20px" data-sample>Try sample documents</button></div>`:
  `<div class="sec n" style="padding-top:0">Press and drag a page to reorder or move it. Tap a page to crop.</div>
  ${drafts.map(d=>`<div class="docc" data-zone="${d.id}"><div class="dh"><b>${TYPES[d.type].name}</b><span class="link" data-type="${d.id}">Change</span></div><div class="gridp">${d.pages.map((id,i)=>tile(id,i)).join('')}</div><div class="chip" data-att="${d.id}">${svgi('clip').replace('<svg','<svg width="14" height="14" style="stroke:#007aff;fill:none;stroke-width:2"')} ${d.attach}</div></div>`).join('')}
  <div class="loosez" data-zone="loose"><b style="color:#000;font-size:15px">Loose pages</b> <span>(sent one by one)</span><div class="gridp" style="margin-top:10px">${S.loose.map((id,i)=>tile(id,i)).join('')||'<span style="grid-column:span 4;padding:14px 0">Drop pages here to un-group them</span>'}</div></div>
@@ -270,7 +270,7 @@ sync:()=>{
  const lab=d=>d.status==='queued'?'Waiting':d.status==='uploading'?`Uploading page ${d.done} of ${d.pages.length}`:d.status==='reading'?'Reading the pages…':'Ready';
  const pc=d=>d.status==='queued'?4:d.status==='uploading'?20+d.done/d.pages.length*50:d.status==='reading'?85:100;
  const ok=!inProg().length&&by('ready').length;
- return sb()+`<div class="nb"><button data-go="pages">&lsaquo; Pages</button><span></span><span></span></div><div class="lt" style="margin-top:-6px">Sending</div><div class="scroll" style="top:68px">
+ return sb()+`<div class="nb"><button data-go="pages">&lsaquo; Pages</button><span></span><span></span></div><div class="lt" style="margin-top:-6px">Sending</div><div class="scroll" style="top:100px">
  ${docs.length?`<div class="grp">${docs.filter(d=>['queued','uploading','reading','ready'].includes(d.status)).map(d=>`<div class="cell" style="display:block"><div style="display:flex;align-items:center;gap:10px"><div class="tx">${TYPES[d.type].name}<small>${lab(d)}</small></div><span class="pill p-${d.status}">${d.status}</span></div><div class="bar"><i class="${d.status==='reading'?'rd':''}" style="width:${pc(d)}%"></i></div></div>`).join('')}</div>`:'<div class="empty">Nothing is being sent.</div>'}
  <div class="sec n" style="padding-top:12px">Pages upload one by one. The phone keeps your originals until the system confirms they are stored.</div>
  ${ok?`<button class="btn" data-go="review">Start review (${by('ready').length})</button>`:''}</div>`},
@@ -287,7 +287,7 @@ review:()=>{
  <div class="hint">Drag the card: right approve, left issue, up edit</div>`},
 fix:()=>{
  const f=by('issue');
- return sb()+`<div class="nb"><span></span><span></span></div><div class="lt" style="margin-top:-6px">Fix later</div><div class="scroll" style="top:68px">${f.length?`<div class="sec n" style="padding-top:0">Nothing here is deleted. Fix it when you have time.</div>`+f.map(d=>`<div class="fx"><div class="top">${thumb(d.pages[0],'s1')}<div class="tx">${TYPES[d.type].name}<small>${d.pages.length} page(s) &middot; marked with an issue</small></div><span class="pill p-issue">Issue</span></div>
+ return sb()+`<div class="nb"><span></span><span></span></div><div class="lt" style="margin-top:-6px">Fix later</div><div class="scroll" style="top:100px">${f.length?`<div class="sec n" style="padding-top:0">Nothing here is deleted. Fix it when you have time.</div>`+f.map(d=>`<div class="fx"><div class="top">${thumb(d.pages[0],'s1')}<div class="tx">${TYPES[d.type].name}<small>${d.pages.length} page(s) &middot; marked with an issue</small></div><span class="pill p-issue">Issue</span></div>
  <div><button class="btn sm" data-fx="crop" data-d="${d.id}">Re-crop</button><button class="btn sm sec2" data-fx="scan" data-d="${d.id}">Re-scan</button><button class="btn sm sec2" data-fx="group" data-d="${d.id}">Regroup</button><button class="btn sm sec2" data-fx="fixed" data-d="${d.id}">Mark fixed</button><button class="btn sm sec2" style="color:var(--red)" data-fx="clear" data-d="${d.id}">Clear</button></div></div>`).join(''):`<div class="empty"><svg class="ic2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg>Nothing to fix.</div>`}</div>`}
 };
 
